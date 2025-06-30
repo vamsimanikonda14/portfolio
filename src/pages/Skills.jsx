@@ -196,7 +196,7 @@ const skills = [
   { icon: <RequireJSIcon />, name: 'RequireJS' },
   { icon: <TomcatIcon />, name: 'Tomcat' },
   { icon: <FaBrain className="text-blue-500"/>, name: 'AI Fundamentials' },
-  { icon: <TomcatIcon />, name: 'Tomcat' },
+  //{ icon: <TomcatIcon />, name: 'Tomcat' },
     { icon: <ChatbotIcon />, name: 'ChatBots' },
   { icon: <EnoviaIcon />, name: 'Enovia' },
   { icon: <Widgets3DXIcon />, name: '3D Experience Widgets' },
