@@ -1,0 +1,12 @@
+.flying-boy-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* behind all page content */
+  pointer-events: none; /* don't block clicks */
+  opacity: 0.5; /* subtle, adjust as you want */
+  background-color: transparent; /* ensure no background blocks animation */
+  overflow: hidden;
+}
