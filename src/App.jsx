@@ -10,6 +10,7 @@ import Certificates from "./pages/Certificates";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import FlyingBoy from "./components/FlyingBoy";
+import Chatbot from "./components/Chatbot";
 import 'animate.css';
 
 
@@ -56,6 +57,7 @@ const App = () => {
         <section id="services"><Services /></section>
         <section id="Certificates"><Certificates /></section>
         <section id="contact"><Contact /></section>
+        <Chatbot />
       </main>
       <Footer />
     </>

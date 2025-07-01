@@ -1,91 +1,106 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import React, { useState } from 'react';
 
-const Navbar = () => {
+const VenkatChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef();
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [username, setUsername] = useState('');
+  const [hasAskedName, setHasAskedName] = useState(false);
 
-  const navLinks = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    {label :"Services",href:"#services"},
-    { label: "Projects", href: "#projects" },
-    { label: "Certificates", href: "#certificates" }, 
-    { label: "Contact", href: "#contact" },
-  ];
+  const toggleChat = () => setIsOpen(!isOpen);
 
-  const handleClickOutside = (e) => {
-    if (menuRef.current && !menuRef.current.contains(e.target)) {
-      setIsOpen(false);
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    const newMessages = [...messages, { sender: 'user', text: input }];
+
+    if (!username) {
+      setUsername(input);
+      newMessages.push({
+        sender: 'bot',
+        text: `Nice to meet you, ${input}! How can I help you today?`,
+      });
+      setHasAskedName(true);
+    } else {
+      const reply = getBotResponse(input);
+      newMessages.push({ sender: 'bot', text: reply });
     }
+
+    setMessages(newMessages);
+    setInput('');
   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const getBotResponse = (message) => {
+    const lower = message.toLowerCase();
+    if (lower.includes('portfolio')) {
+      return 'My portfolio includes React projects, REST APIs, UI/UX design, and more. Ask me about any project!';
+    }
+    return `That's interesting, tell me more!`;
+  };
 
   return (
-    <nav className="fixed top-0 left-0 w-full  dark:bg-gray-900 shadow-md border-b border-blue-100 dark:border-gray-700 z-50 transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="flex justify-between items-center h-16">
-          <div className="text-3xl font-extrabold text-blue-700 dark:text-blue-300">
-         <a
-          href="#home"
-          className="text-3xl font-extrabold text-blue-700 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 transition duration-300"
-         >
-         portfolio
-        </a>
+    <div className="fixed bottom-5 right-5 z-50">
+      {!isOpen && (
+        <button
+          onClick={toggleChat}
+          className="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition"
+        >
+          💬
+        </button>
+      )}
 
+      {isOpen && (
+        <div className="w-80 h-96 bg-white dark:bg-gray-900 border border-blue-200 dark:border-gray-700 rounded-lg flex flex-col shadow-xl">
+          {/* Header */}
+          <div className="flex justify-between items-center p-3 bg-blue-600 text-white rounded-t-md">
+            <span className="font-semibold">Chat with Venkat 🤖</span>
+            <button onClick={toggleChat} className="text-white hover:text-gray-200">
+              ✖
+            </button>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8 text-xl font-semibold text-gray-700 dark:text-gray-200">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+          {/* Chat Body */}
+          <div className="flex-1 p-3 overflow-y-auto space-y-2 bg-gray-50 dark:bg-gray-800 text-sm">
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`p-2 rounded-lg max-w-[75%] ${
+                  msg.sender === 'user'
+                    ? 'bg-blue-100 dark:bg-blue-800 text-right ml-auto text-black dark:text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white'
+                }`}
               >
-                {link.label}
-              </a>
+                {msg.text}
+              </div>
             ))}
+            {!hasAskedName && messages.length === 0 && (
+              <div className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-black dark:text-white">
+                Hi! I'm Venkat 👋 What's your name?
+              </div>
+            )}
           </div>
 
-          {/* Mobile Toggle Button */}
-          <div className="md:hidden">
+          {/* Input */}
+          <div className="p-3 border-t border-blue-100 dark:border-gray-700 flex space-x-2 bg-white dark:bg-gray-900">
+            <input
+              type="text"
+              className="flex-1 px-3 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white dark:bg-gray-800 text-black dark:text-white"
+              placeholder="Type your message..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            />
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-800 dark:text-gray-200 focus:outline-none text-2xl"
-              aria-label="Toggle Menu"
+              onClick={handleSend}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm transition"
             >
-              {isOpen ? <FaTimes /> : <FaBars />}
+              Send
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div
-          ref={menuRef}
-          className="md:hidden bg-white dark:bg-gray-900 px-6 py-4 shadow-md border-t border-gray-200 dark:border-gray-800 transition-all duration-300"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="block py-3 text-base font-medium text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
       )}
-    </nav>
+    </div>
   );
 };
 
-export default Navbar;
+export default VenkatChatbot;

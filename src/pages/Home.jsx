@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import { FaGithub, FaLinkedin, FaEnvelope, FaHackerrank } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaEnvelope, FaHackerrank ,FaWhatsapp } from "react-icons/fa";
 import Particles from "react-tsparticles";
 import "animate.css";
 
@@ -157,6 +157,7 @@ const Hero = () => {
                 { href: "https://github.com/venkatavamsikrishna", icon: <FaGithub />, className: "text-black-100 hover:text-black-300" },
                 { href: "https://linkedin.com/in/venkatavamsikrishnamanikonda/", icon: <FaLinkedin />, className: "text-blue-400 hover:text-blue-500" },
                 { href: "mailto:venkatavamsikrishnamanikonda@gmail.com", icon: <FaEnvelope />, className: "text-red-400 hover:text-red-500" },
+                { href: "https://wa.me/918919615299", icon: <FaWhatsapp />, className: "text-green-400 hover:text-green-500",target: "_blank",rel: "noopener noreferrer" },
                 { href: "https://www.hackerrank.com/profile/venkatavamsikri2", icon: <FaHackerrank />, className: "text-green-400 hover:text-green-500" },
               ].map(({ href, icon, className }, i) => (
                 <motion.a
