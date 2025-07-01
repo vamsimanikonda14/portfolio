@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
 // 🔐 openAI API Key
-const OPENAI_API_KEY = "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";
-
+const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
